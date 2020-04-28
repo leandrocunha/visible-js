@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visible.Js</title>
+    <script src="visibly.js"></script>
+    <script src="visible.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="console">
+        <ul>
+            <li data-time="0" data-field="Top">Top: <span>0</span>s</li>
+            <li data-time="0" data-field="Middle">Middle: <span>0</span>s</li>
+            <li data-time="0" data-field="Bottom">Bottom: <span>0</span>s</li>
+        </ul>
+    </div>
+    <div id="main">
+        <div id="top">
+            <p>#Top</p>
+        </div>
+        <div id="middle">
+            <p>#Middle</p>
+        </div>
+        <div id="bottom">
+            <p>#Bottom</p>
+        </div>
+        <div id="footer">
+            <p>Made with ❤️ Leandro Cunha under MIT license</p>
+        </div>
+    </div>
+    <script>
+        screentime({
+            fields: [
+                { selector: "#top", name: "Top" },
+                { selector: "#middle", name: "Middle" },
+                { selector: "#bottom", name: "Bottom" },
+                // Fields defined but not on page should be ignored
+                { selector: "#missing-elem", name: "Not on page" },
+            ],
+            reportInterval: 1,
+            googleAnalytics: false,
+            callback: elements => {
+                console.log(elements);
+                Object.keys(elements).map(name => {
+                    const element = document.querySelector("#console ul li[data-field=\"" + name + "\"]");
+                    element.dataset.time = elements[name];
+                    element.children[0].innerHTML = elements[name];
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
